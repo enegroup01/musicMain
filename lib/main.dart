@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:newtest/widgets/feeling_textfield.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
@@ -77,45 +79,7 @@ class _MyMusicAppState extends State<MyMusicApp>
   late Path _shadowPath;
   Path? _comparePath;
 
-  List<Widget> topBanners = [
-    Text(
-      'Pressure',
-      style: TextStyle(color: Colors.white70, fontSize: 18),
-    ),
-    SizedBox(
-      width: 40,
-    ),
-    Text(
-      'Sleep',
-      style: TextStyle(color: Colors.white70, fontSize: 18),
-    ),
-    SizedBox(
-      width: 40,
-    ),
-    Text(
-      'Anxiety',
-      style: TextStyle(color: Colors.white70, fontSize: 18),
-    ),
-    SizedBox(
-      width: 40,
-    ),
-    Text(
-      'Productivity',
-      style: TextStyle(color: Colors.white70, fontSize: 18),
-    ),
-  ].toList();
   TextEditingController feelingController = TextEditingController();
-
-  Widget backgroundColorContainer(BuildContext context) {
-    return Container(
-      height: MediaQuery.of(context).size.height,
-      decoration: BoxDecoration(
-          gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [Theme.of(context).primaryColorDark, Colors.black])),
-    );
-  }
 
   late AssetsAudioPlayer _assetsAudioPlayer;
   final List<Audio> myAudio = [
@@ -168,32 +132,174 @@ class _MyMusicAppState extends State<MyMusicApp>
 
     _playAnimation();
 
+/*
+BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [Theme.of(context).primaryColorDark, Colors.black]))
+*/
     return Scaffold(
-      backgroundColor: Colors.transparent,
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(backgroundColor: Colors.transparent, elevation: 0),
+      backgroundColor: Colors.black,
       resizeToAvoidBottomInset: true,
-      body: SingleChildScrollView(
-        child: Stack(
+      body: Stack(children: [
+        singleScrollVC(context, intervalValue, followPath),
+        myBanner(),
+        Positioned(
+            left: (MediaQuery.of(context).size.width - 300) / 2,
+            bottom: 25,
+            child: Column(
+              children: [
+                controlPanel(),
+                FeelingTextField(),
+              ],
+            ))
+      ]),
+    );
+  }
+
+  Container myBanner() {
+    return Container(
+      height: 50,
+      child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            backgroundColorContainer(context),
-            SafeArea(
-              bottom: false,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 30, bottom: 20),
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: topBanners),
-                      // const SizedBox(
-                      //   height: 50,
-                      // ),
-                      Stack(alignment: Alignment.center, children: [
-                        Column(
+            bannerText('Pressure'),
+            SizedBox(
+              width: 20,
+            ),
+            bannerText('Sleep'),
+            SizedBox(
+              width: 20,
+            ),
+            bannerText('Anxiety'),
+            SizedBox(
+              width: 20,
+            ),
+            bannerText('Productivity')
+          ].toList()),
+    );
+  }
+
+  Text bannerText(String text) {
+    return Text(
+      text,
+      style: TextStyle(color: Colors.white70, fontSize: 18),
+    );
+  }
+
+  //tempSingleVc(context, intervalValue, followPath)
+
+  LayoutBuilder singleScrollVC(
+      BuildContext context, double intervalValue, Path followPath) {
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints viewportConstraints) {
+        return SingleChildScrollView(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              minHeight: viewportConstraints.maxHeight,
+            ),
+            child: IntrinsicHeight(
+              child: Column(
+                children: <Widget>[
+                  Expanded(
+                    // A flexible child that will grow to fit the viewport but
+                    // still be at least as big as necessary to fit its contents.
+                    child: Container(
+                      alignment: Alignment.center,
+                      child: Text(
+                        'text',
+                        style: TextStyle(color: Colors.white, fontSize: 250),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    // A flexible child that will grow to fit the viewport but
+                    // still be at least as big as necessary to fit its contents.
+                    child: Container(
+                      alignment: Alignment.center,
+                      child: Text(
+                        'text',
+                        style: TextStyle(color: Colors.white, fontSize: 250),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    // A flexible child that will grow to fit the viewport but
+                    // still be at least as big as necessary to fit its contents.
+                    child: Container(
+                      alignment: Alignment.center,
+                      child: Text(
+                        'text',
+                        style: TextStyle(color: Colors.white, fontSize: 250),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    // A flexible child that will grow to fit the viewport but
+                    // still be at least as big as necessary to fit its contents.
+                    child: Container(
+                      alignment: Alignment.center,
+                      child: Text(
+                        'text',
+                        style: TextStyle(color: Colors.white, fontSize: 250),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    // A flexible child that will grow to fit the viewport but
+                    // still be at least as big as necessary to fit its contents.
+                    child: Container(
+                      alignment: Alignment.center,
+                      child: Text(
+                        'text',
+                        style: TextStyle(color: Colors.white, fontSize: 250),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    // A flexible child that will grow to fit the viewport but
+                    // still be at least as big as necessary to fit its contents.
+                    child: Container(
+                      alignment: Alignment.center,
+                      child: Text(
+                        'text',
+                        style: TextStyle(color: Colors.white, fontSize: 250),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+  /*
+
+Stack(
+        children: [
+          SafeArea(
+            bottom: false,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 30, bottom: 20),
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: topBanners),
+                    // const SizedBox(
+                    //   height: 50,
+                    // ),
+                    Stack(alignment: Alignment.center, children: [
+                      Container(
+                        width: 100,
+                        child: Column(
                           children: [
                             SizedBox(
                               height: 50,
@@ -204,99 +310,107 @@ class _MyMusicAppState extends State<MyMusicApp>
                             ),
                           ],
                         ),
-                        Column(
-                          children: [
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Container(
-                              alignment: Alignment.topCenter,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                color: Colors.white24,
-                              ),
-                              height: 190,
-                              width: 190,
-                              child: const Padding(
-                                padding: EdgeInsets.only(top: 20),
-                                child: Text(
-                                  'Disover',
-                                  style: TextStyle(
-                                      color: Colors.white70,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ]),
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            PlayerBuilder.isPlaying(
-                                player: _assetsAudioPlayer,
-                                builder: (ctx, isPlaying) {
-                                  return IconButton(
-                                      onPressed: () {
-                                        _assetsAudioPlayer.playOrPause();
-                                      },
-                                      icon: isPlaying
-                                          ? Icon(
-                                              Icons.pause_circle_filled,
-                                            )
-                                          : Icon(
-                                              Icons.play_circle_fill,
-                                              size: 50,
-                                            ));
-                                }),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            IconButton(
-                                onPressed: () => _playAnimation(),
-                                icon: Icon(
-                                  Icons.stop_circle,
-                                  size: 50,
-                                )),
-                          ]),
-                    ]),
-              ),
-            ),
-            AnimatedBuilder(
-              animation: _controller,
-              builder: (_, child) {
-                // rest the follow path when the controller is finished
-                if (intervalValue >= _controller.value) {
-                  followPath.reset();
-                }
-                intervalValue = _controller.value;
-
-                final val = _mainCurve.evaluate(_controller);
-                followPath.lineTo(_controller.value * _size, -val * _size);
-
-                return CustomPaint(
-                  painter: GraphPainter(
-                      shadowPath: _shadowPath,
-                      followPath: followPath,
-                      comparePath: _comparePath,
-                      currentPoint: Offset(
-                        _controller.value * _size,
-                        val * _size,
                       ),
-                      graphSize: _size,
-                      screenSize: MediaQuery.of(context).size),
-                  child: Container(),
-                );
-              },
+                      Column(
+                        children: [
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Container(
+                            alignment: Alignment.topCenter,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              color: Colors.white24,
+                            ),
+                            height: 190,
+                            width: 190,
+                            child: const Padding(
+                              padding: EdgeInsets.only(top: 20),
+                              child: Text(
+                                'Disover',
+                                style: TextStyle(
+                                    color: Colors.white70,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ]),
+                  ]),
             ),
-            Positioned(
-                left: (MediaQuery.of(context).size.width - 300) / 2,
-                bottom: 25,
-                child: FeelingTextField()),
-          ],
-        ),
+          ),
+          controlPanel(),
+          Positioned(
+              left: (MediaQuery.of(context).size.width - 300) / 2,
+              bottom: 25,
+              child: FeelingTextField()),
+        ],
       ),
+  */
+
+  AnimatedBuilder animation(
+      double intervalValue, Path followPath, BuildContext context) {
+    return AnimatedBuilder(
+      animation: _controller,
+      builder: (_, child) {
+        // rest the follow path when the controller is finished
+        if (intervalValue >= _controller.value) {
+          followPath.reset();
+        }
+        intervalValue = _controller.value;
+
+        final val = _mainCurve.evaluate(_controller);
+        followPath.lineTo(_controller.value * _size, -val * _size);
+
+        return CustomPaint(
+          painter: GraphPainter(
+              shadowPath: _shadowPath,
+              followPath: followPath,
+              comparePath: _comparePath,
+              currentPoint: Offset(
+                _controller.value * _size,
+                val * _size,
+              ),
+              graphSize: _size,
+              screenSize: MediaQuery.of(context).size),
+          child: Container(),
+        );
+      },
     );
+  }
+
+  Row controlPanel() {
+    return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+      PlayerBuilder.isPlaying(
+          player: _assetsAudioPlayer,
+          builder: (ctx, isPlaying) {
+            return IconButton(
+                iconSize: 50,
+                onPressed: () {
+                  _assetsAudioPlayer.playOrPause();
+                },
+                icon: isPlaying
+                    ? Icon(
+                        Icons.pause_circle_filled,
+                        color: Colors.blue,
+                      )
+                    : Icon(
+                        Icons.play_circle_fill,
+                        color: Colors.blue,
+                      ));
+          }),
+      SizedBox(
+        width: 20,
+      ),
+      IconButton(
+          iconSize: 50,
+          onPressed: () => _assetsAudioPlayer.stop(),
+          icon: Icon(
+            Icons.stop_circle,
+            color: Colors.blue,
+          )),
+    ]);
   }
 }
 
