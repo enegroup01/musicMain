@@ -1,10 +1,14 @@
 import 'dart:html';
-
 import 'package:flutter/material.dart';
+import 'package:newtest/models/SongData.dart';
 import 'package:newtest/widgets/feeling_textfield.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'dart:math';
 import 'dart:ui';
+
+import 'models/Song.dart';
+
+enum Genre { Pressure, Sleep, Anxiety, Productivity }
 
 void main() {
   runApp(const MyApp());
@@ -28,11 +32,9 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   // This widget is the root of your application.
-
   @override
   Widget build(BuildContext context) {
     final linearTween = Tween<double>(begin: 0, end: 1);
-
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
@@ -85,6 +87,10 @@ class _MyMusicAppState extends State<MyMusicApp>
   final List<Audio> myAudio = [
     Audio.network('assets/assets/sounds/puddle.mp3')
   ];
+
+  List<String> get genres {
+    return Genre.values.map((e) => e.name).toList();
+  }
 
   @override
   void initState() {
@@ -142,6 +148,9 @@ BoxDecoration(
     return Scaffold(
       backgroundColor: Colors.black,
       resizeToAvoidBottomInset: true,
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+      ),
       body: Stack(children: [
         singleScrollVC(context, intervalValue, followPath),
         myBanner(),
@@ -159,12 +168,14 @@ BoxDecoration(
   }
 
   Container myBanner() {
+    Song dropdownValue = pressureSongs.first;
     return Container(
       height: 50,
       child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            myDropDownButton(dropdownValue),
             bannerText('Pressure'),
             SizedBox(
               width: 20,
@@ -182,10 +193,53 @@ BoxDecoration(
     );
   }
 
-  Text bannerText(String text) {
-    return Text(
-      text,
-      style: TextStyle(color: Colors.white70, fontSize: 18),
+  DropdownButton<Song> myDropDownButton(Song dropdownValue) {
+    return DropdownButton<Song>(
+      value: dropdownValue,
+      elevation: 16,
+      style: const TextStyle(color: Colors.lightBlue),
+      underline: null,
+      icon: bannerText(dropdownValue.title),
+      onChanged: (Song? value) {
+        // This is called when the user selects an item.
+        setState(() {
+          dropdownValue = value!;
+        });
+      },
+      items: pressureSongs.map<DropdownMenuItem<Song>>((Song value) {
+        return DropdownMenuItem<Song>(
+          value: value,
+          child: Text(value.title),
+        );
+      }).toList(),
+    );
+  }
+
+  ClipRRect bannerText(String text) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(15),
+      child: Stack(
+        children: <Widget>[
+          Positioned.fill(
+            child: Container(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  colors: <Color>[Colors.white24, Colors.white12],
+                ),
+              ),
+            ),
+          ),
+          TextButton(
+            style: TextButton.styleFrom(
+              foregroundColor: Colors.lightBlue,
+              padding: const EdgeInsets.all(16.0),
+              textStyle: const TextStyle(fontSize: 15),
+            ),
+            onPressed: () {},
+            child: Text(text),
+          ),
+        ],
+      ),
     );
   }
 
@@ -195,84 +249,86 @@ BoxDecoration(
       BuildContext context, double intervalValue, Path followPath) {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints viewportConstraints) {
-        return SingleChildScrollView(
-          child: ConstrainedBox(
-            constraints: BoxConstraints(
-              minHeight: viewportConstraints.maxHeight,
-            ),
-            child: IntrinsicHeight(
-              child: Column(
-                children: <Widget>[
-                  Expanded(
-                    // A flexible child that will grow to fit the viewport but
-                    // still be at least as big as necessary to fit its contents.
-                    child: Container(
-                      alignment: Alignment.center,
-                      child: Text(
-                        'text',
-                        style: TextStyle(color: Colors.white, fontSize: 250),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    // A flexible child that will grow to fit the viewport but
-                    // still be at least as big as necessary to fit its contents.
-                    child: Container(
-                      alignment: Alignment.center,
-                      child: Text(
-                        'text',
-                        style: TextStyle(color: Colors.white, fontSize: 250),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    // A flexible child that will grow to fit the viewport but
-                    // still be at least as big as necessary to fit its contents.
-                    child: Container(
-                      alignment: Alignment.center,
-                      child: Text(
-                        'text',
-                        style: TextStyle(color: Colors.white, fontSize: 250),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    // A flexible child that will grow to fit the viewport but
-                    // still be at least as big as necessary to fit its contents.
-                    child: Container(
-                      alignment: Alignment.center,
-                      child: Text(
-                        'text',
-                        style: TextStyle(color: Colors.white, fontSize: 250),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    // A flexible child that will grow to fit the viewport but
-                    // still be at least as big as necessary to fit its contents.
-                    child: Container(
-                      alignment: Alignment.center,
-                      child: Text(
-                        'text',
-                        style: TextStyle(color: Colors.white, fontSize: 250),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    // A flexible child that will grow to fit the viewport but
-                    // still be at least as big as necessary to fit its contents.
-                    child: Container(
-                      alignment: Alignment.center,
-                      child: Text(
-                        'text',
-                        style: TextStyle(color: Colors.white, fontSize: 250),
-                      ),
-                    ),
-                  ),
-                ],
+        return ListView(
+          children: [
+            ConstrainedBox(
+              constraints: BoxConstraints(
+                minHeight: viewportConstraints.maxHeight,
               ),
-            ),
-          ),
+              child: IntrinsicHeight(
+                child: Column(
+                  children: <Widget>[
+                    Expanded(
+                      // A flexible child that will grow to fit the viewport but
+                      // still be at least as big as necessary to fit its contents.
+                      child: Container(
+                        alignment: Alignment.center,
+                        child: Text(
+                          'text',
+                          style: TextStyle(color: Colors.white, fontSize: 250),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      // A flexible child that will grow to fit the viewport but
+                      // still be at least as big as necessary to fit its contents.
+                      child: Container(
+                        alignment: Alignment.center,
+                        child: Text(
+                          'text',
+                          style: TextStyle(color: Colors.white, fontSize: 250),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      // A flexible child that will grow to fit the viewport but
+                      // still be at least as big as necessary to fit its contents.
+                      child: Container(
+                        alignment: Alignment.center,
+                        child: Text(
+                          'text',
+                          style: TextStyle(color: Colors.white, fontSize: 250),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      // A flexible child that will grow to fit the viewport but
+                      // still be at least as big as necessary to fit its contents.
+                      child: Container(
+                        alignment: Alignment.center,
+                        child: Text(
+                          'text',
+                          style: TextStyle(color: Colors.white, fontSize: 250),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      // A flexible child that will grow to fit the viewport but
+                      // still be at least as big as necessary to fit its contents.
+                      child: Container(
+                        alignment: Alignment.center,
+                        child: Text(
+                          'text',
+                          style: TextStyle(color: Colors.white, fontSize: 250),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      // A flexible child that will grow to fit the viewport but
+                      // still be at least as big as necessary to fit its contents.
+                      child: Container(
+                        alignment: Alignment.center,
+                        child: Text(
+                          'text',
+                          style: TextStyle(color: Colors.white, fontSize: 250),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            )
+          ],
         );
       },
     );
