@@ -1,12 +1,14 @@
 import 'dart:html';
 import 'package:flutter/material.dart';
 import 'package:newtest/models/SongData.dart';
+import 'package:newtest/widgets/custom_button.dart';
 import 'package:newtest/widgets/feeling_textfield.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'dart:math';
 import 'dart:ui';
-
 import 'models/Song.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 
 enum Genre { Pressure, Sleep, Anxiety, Productivity }
 
@@ -138,13 +140,6 @@ class _MyMusicAppState extends State<MyMusicApp>
 
     _playAnimation();
 
-/*
-BoxDecoration(
-            gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [Theme.of(context).primaryColorDark, Colors.black]))
-*/
     return Scaffold(
       backgroundColor: Colors.black,
       resizeToAvoidBottomInset: true,
@@ -154,6 +149,41 @@ BoxDecoration(
       body: Stack(children: [
         singleScrollVC(context, intervalValue, followPath),
         myBanner(),
+        Center(
+          child: SizedBox(
+            width: 300,
+            child: DefaultTextStyle(
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontSize: 35,
+                color: Colors.white,
+                shadows: [
+                  Shadow(
+                    blurRadius: 7.0,
+                    color: Colors.white,
+                    offset: Offset(0, 0),
+                  ),
+                ],
+              ),
+              child: AnimatedTextKit(
+                repeatForever: true,
+                animatedTexts: [
+                  FlickerAnimatedText('Knowing what is happening',
+                      speed: Duration(milliseconds: 4400)),
+                  FlickerAnimatedText('while it is happening',
+                      speed: Duration(milliseconds: 4400)),
+                  FlickerAnimatedText("without preference",
+                      speed: Duration(milliseconds: 4400)),
+                  FlickerAnimatedText("is mindfulness!",
+                      speed: Duration(milliseconds: 4400)),
+                ],
+                onTap: () {
+                  print("Tap Event");
+                },
+              ),
+            ),
+          ),
+        ),
         Positioned(
             left: (MediaQuery.of(context).size.width - 300) / 2,
             bottom: 25,
@@ -169,26 +199,51 @@ BoxDecoration(
 
   Container myBanner() {
     Song dropdownValue = pressureSongs.first;
+
+    String? selectedValue;
     return Container(
       height: 50,
       child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            myDropDownButton(dropdownValue),
-            bannerText('Pressure'),
+            CustomDropdownButton2(
+                hint: pressureSongs.first.genre.name,
+                value: selectedValue,
+                dropdownItems: pressureSongs.map((e) => e.title).toList(),
+                onChanged: (value) {
+                  selectedValue = value;
+                }),
             SizedBox(
               width: 20,
             ),
-            bannerText('Sleep'),
+            CustomDropdownButton2(
+                hint: sleepSongs.first.genre.name,
+                value: selectedValue,
+                dropdownItems: sleepSongs.map((e) => e.title).toList(),
+                onChanged: (value) {
+                  selectedValue = value;
+                }),
             SizedBox(
               width: 20,
             ),
-            bannerText('Anxiety'),
+            CustomDropdownButton2(
+                hint: anxietySongs.first.genre.name,
+                value: selectedValue,
+                dropdownItems: anxietySongs.map((e) => e.title).toList(),
+                onChanged: (value) {
+                  selectedValue = value;
+                }),
             SizedBox(
               width: 20,
             ),
-            bannerText('Productivity')
+            CustomDropdownButton2(
+                hint: productivitySongs.first.genre.name,
+                value: selectedValue,
+                dropdownItems: productivitySongs.map((e) => e.title).toList(),
+                onChanged: (value) {
+                  selectedValue = value;
+                }),
           ].toList()),
     );
   }
@@ -199,7 +254,7 @@ BoxDecoration(
       elevation: 16,
       style: const TextStyle(color: Colors.lightBlue),
       underline: null,
-      icon: bannerText(dropdownValue.title),
+      hint: bannerText(dropdownValue.genre.name),
       onChanged: (Song? value) {
         // This is called when the user selects an item.
         setState(() {
@@ -258,72 +313,16 @@ BoxDecoration(
               child: IntrinsicHeight(
                 child: Column(
                   children: <Widget>[
-                    Expanded(
-                      // A flexible child that will grow to fit the viewport but
-                      // still be at least as big as necessary to fit its contents.
-                      child: Container(
-                        alignment: Alignment.center,
-                        child: Text(
-                          'text',
-                          style: TextStyle(color: Colors.white, fontSize: 250),
-                        ),
-                      ),
+                    SizedBox(
+                      height: 300,
                     ),
                     Expanded(
-                      // A flexible child that will grow to fit the viewport but
-                      // still be at least as big as necessary to fit its contents.
-                      child: Container(
-                        alignment: Alignment.center,
+                        // A flexible child that will grow to fit the viewport but
+                        // still be at least as big as necessary to fit its contents.
                         child: Text(
-                          'text',
-                          style: TextStyle(color: Colors.white, fontSize: 250),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      // A flexible child that will grow to fit the viewport but
-                      // still be at least as big as necessary to fit its contents.
-                      child: Container(
-                        alignment: Alignment.center,
-                        child: Text(
-                          'text',
-                          style: TextStyle(color: Colors.white, fontSize: 250),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      // A flexible child that will grow to fit the viewport but
-                      // still be at least as big as necessary to fit its contents.
-                      child: Container(
-                        alignment: Alignment.center,
-                        child: Text(
-                          'text',
-                          style: TextStyle(color: Colors.white, fontSize: 250),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      // A flexible child that will grow to fit the viewport but
-                      // still be at least as big as necessary to fit its contents.
-                      child: Container(
-                        alignment: Alignment.center,
-                        child: Text(
-                          'text',
-                          style: TextStyle(color: Colors.white, fontSize: 250),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      // A flexible child that will grow to fit the viewport but
-                      // still be at least as big as necessary to fit its contents.
-                      child: Container(
-                        alignment: Alignment.center,
-                        child: Text(
-                          'text',
-                          style: TextStyle(color: Colors.white, fontSize: 250),
-                        ),
-                      ),
-                    ),
+                      '',
+                      style: TextStyle(color: Colors.white),
+                    )),
                   ],
                 ),
               ),
