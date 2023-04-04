@@ -72440,7 +72440,7 @@ else{s=o.d
 if(k===B.nL)s.acd(0)
 else s.P_(0,!0)}k=o.QK(a,0,l)
 s=o.aaZ()
-r=A.DS(A.e7(A.kH(new A.tE(A.a([A.Z5("Knowing what is happening",A.bA(0,m,0)),A.Z5("while it is happening",A.bA(0,m,0)),A.Z5("without preference",A.bA(0,m,0)),A.Z5("is mindfulness!",A.bA(0,m,0))],t.u6),new A.adB(),!0,n),n,n,B.bt,!0,B.MH,B.lt,n,B.aH),n,300),n,n)
+r=A.DS(A.e7(A.kH(new A.tE(A.a([A.Z5("222 Knowing what is happening",A.bA(0,m,0)),A.Z5("while it is happening",A.bA(0,m,0)),A.Z5("without preference",A.bA(0,m,0)),A.Z5("is mindfulness!",A.bA(0,m,0))],t.u6),new A.adB(),!0,n),n,n,B.bt,!0,B.MH,B.lt,n,B.aH),n,300),n,n)
 q=a.T(t.w).f
 p=t.D
 return new A.xR(new A.tP(B.l,new A.Pk(n,n,1/0,56),n),new A.fV(B.bN,n,B.bL,B.X,A.a([k,s,r,A.x7(25,A.EA(A.a([o.a6Y(),new A.G1(n)],p),B.ct,B.dp),n,n,(q.a.a-300)/2,n,n,n)],p),n),B.l,!0,n)},
